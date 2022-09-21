@@ -34,6 +34,7 @@ def play(request):
         request.session['tries'] += 1
         return render(request, 'numgame/index.html', context('too High', 'red'))
     if guess != random_num and request.session['tries'] >= 5:
+        request.session['tries'] = 0
         return render(request, 'numgame/index.html', context('Game over number of tries exceeded please restart the game', 'purple'))
 
 
