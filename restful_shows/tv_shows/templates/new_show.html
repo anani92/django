@@ -20,15 +20,28 @@
     <form action="/create_new" class="from border my-3 p-3" method="post">
       {%csrf_token%}
       <label for="title">Title</label>
-      <input type="text" name="show_title" id="title" class="form-control" />
+      <input
+        type="text"
+        name="show_title"
+        id="title"
+        class="form-control"
+        required
+      />
       <label for="net_work">Network</label>
-      <input type="text" id="net_work" name="net_work" class="form-control" />
+      <input
+        type="text"
+        id="net_work"
+        name="net_work"
+        class="form-control"
+        required
+      />
       <label for="release_date" class="d-block">Release Date</label>
       <input
         type="date"
         name="release_date"
         id="release_date"
         class="form-control"
+        required
       />
       <label for="description" class="text d-block">description</label>
       <textarea name="desc" id="description" cols="30" rows="10"></textarea>
@@ -38,5 +51,14 @@
         class="btn btn-outline-primary d-block text-center"
       />
     </form>
+    {% if messages %}
+    <ul class="messages">
+          {% for message in messages %}         
+      <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+      </li>
+          {% endfor %}
+    </ul>
+    {% endif %}
   </body>
 </html>
