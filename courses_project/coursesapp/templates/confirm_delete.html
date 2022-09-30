@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container border">
+      <h2>Are you sure you want to delete the following course?</h2>
+      <p>Name: {{course.name}}</p>
+      <p>Description: {{course.description}}</p>
+      <div class="confirm">
+        <a href="/">
+          <button class="btn btn-ouline">No</button>
+        </a>
+        <a href="/delete/{{course.id}}">
+          <button class="btn btn-danger">Yes, I want to delete it!</button>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
