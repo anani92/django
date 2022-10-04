@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+.header {
+  background-color: rgb(13, 51, 113);
+  font-family: monospace;
+  color: #fff;
+}
+
+.header ul .card {
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+nav ul li {
+  padding-left: 1rem;
+  font-size: 1.25rem;
+}

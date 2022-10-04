@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The wall</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/7a6f9ad03e.js"
+      crossorigin="anonymous"
+    ></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="header d-flex justify-content-between p-2">
+      <h1>Bricks on The Wall</h1>
+      <nav>
+        <ul class="d-flex justify-content-between list-unstyled">
+          <li>
+            Welcome,
+            <span class="text text-capitalize">{{user.user_name}}</span>
+          </li>
+          <li>
+            <a class="text-secondary" href="/thewall/logout">signout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <section class="create-message">
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10 col-xl-8">
+            <div class="post-card container card p-2">
+              <form action="/thewall/message" method="POST" class="form">
+                {%csrf_token%}
+                <h2 class="text text-primary font-italic">Write a message</h2>
+                <div>
+                  <textarea
+                    class="form-control"
+                    id="comment"
+                    name="message"
+                    rows="4"
+                  ></textarea>
+                  <input type="hidden" name="user_id" value="{{user.id}}" />
+                  <div class="card-footer border-0 p-4 my-1">
+                    <input
+                      type="submit"
+                      value="Post"
+                      class="btn btn-block btn-primary"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="post">
+      {%for message in messages reversed%}
+      <div class="container my-1 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10 col-xl-8">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex flex-start align-items-center">
+                  <img
+                    class="rounded-circle shadow-1-strong me-3"
+                    src="{%static 'imgs/profile.png' %}"
+                    alt="avatar"
+                    width="60"
+                    height="60"
+                  />
+                  <div>
+                    <h6 class="fw-bold text-primary mb-1">
+                      {{message.user.user_name}}
+                    </h6>
+                    <p class="text-muted small mb-0">
+                      Shared publicly {{message.created_at}}
+                    </p>
+                  </div>
+                </div>
+
+                <p class="mt-3 mb-4 pb-2 message-text">{{message.text}}</p>
+
+                <div class="small d-flex justify-content-start">
+                  <a href="#!" class="d-flex align-items-center me-3">
+                    <i class="far fa-thumbs-up me-2"></i>
+                    <p class="mb-0 p-1">Like</p>
+                  </a>
+                  <a href="#!" class="d-flex align-items-center me-3">
+                    <i class="far fa-comment-dots me-2"></i>
+                    <p class="mb-0 p-1">Comment</p>
+                  </a>
+                  <a href="#!" class="d-flex align-items-center me-3">
+                    <i class="fas fa-share me-2"></i>
+                    <p class="mb-0 p-1">Share</p>
+                  </a>
+                </div>
+              </div>
+              <div class="d-flex justify-content-lg-start flex-column-reverse">
+                {%for comment in message.comments.all%}
+                <p
+                  class="p-2"
+                  style="
+                    background-color: #f8f9fa;
+                    font-size: 1.25rem;
+                    margin: 0;
+                  "
+                >
+                  <img
+                    class="rounded-circle shadow-1-strong me-3"
+                    src="{%static 'imgs/profile.png' %}"
+                    alt="avatar"
+                    width="40"
+                    height="40"
+                  />
+                  <span class="text-primary">{{comment.user.user_name}}</span>
+                  {{comment.comment_text}}
+                  <span class="text-secondary ml-5" style="font-size: 0.75em"
+                    >{{comment.created_at}}</span
+                  >
+                </p>
+                {%endfor%}
+              </div>
+              <div
+                class="card-footer py-3 border-0"
+                style="background-color: #f8f9fa"
+              >
+                <div class="d-flex flex-start w-100">
+                  <img
+                    class="rounded-circle shadow-1-strong me-3"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                    alt="avatar"
+                    width="40"
+                    height="40"
+                  />
+                  <form
+                    action="/thewall/comment"
+                    method="post"
+                    class="form-outline w-100"
+                  >
+                    {%csrf_token%}
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="comment"
+                      name="comment"
+                      style="background: #fff"
+                      placeholder="Write a comment"
+                    />
+                    <input
+                      type="hidden"
+                      name="user_commented_id"
+                      value="{{user.id}}"
+                    />
+                    <input
+                      type="hidden"
+                      name="message_id"
+                      value="{{message.id}}"
+                    />
+
+                    <div class="float-end mt-2 pt-1">
+                      <input
+                        type="submit"
+                        class="btn btn-primary btn-sm"
+                        value="Post comment"
+                      />
+
+                      <a href="#">
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-sm"
+                        >
+                          Cancel
+                        </button>
+                      </a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </section>
+  </body>
+</html>
